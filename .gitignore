@@ -39,7 +39,7 @@ build/
 
 ### Variables de entorno y configuración local ###
 
-application-local.properties
+application.properties
 .env
 
 
