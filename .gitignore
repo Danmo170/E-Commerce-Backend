@@ -43,18 +43,18 @@ application.properties
 .env
 
 
-# Archivos del IDE
+### Archivos del IDE ###
 
 .idea/
 
 
-# Sistema operativo
+### Sistema operativo ###
 
 .DS_Store
 Thumbs.db
 
 
-# Logs
+### Logs ###
 
 *.log
 logs/
