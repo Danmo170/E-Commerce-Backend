@@ -1,4 +1,4 @@
-package com.projects.ecommerce.model.entity;
+package com.projects.ecommerce.model.entity.Order;
 
 public enum OrderStatus {
 

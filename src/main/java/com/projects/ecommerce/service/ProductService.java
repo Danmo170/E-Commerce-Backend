@@ -1,8 +1,8 @@
 package com.projects.ecommerce.service;
 
-import com.projects.ecommerce.model.dto.ProductRequestDTO;
-import com.projects.ecommerce.model.dto.ProductResponseDTO;
-import com.projects.ecommerce.model.entity.Product;
+import com.projects.ecommerce.model.dto.Product.ProductRequestDTO;
+import com.projects.ecommerce.model.dto.Product.ProductResponseDTO;
+import com.projects.ecommerce.model.entity.Product.Product;
 import com.projects.ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

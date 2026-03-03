@@ -1,26 +1,29 @@
-package com.projects.ecommerce.model.entity;
+package com.projects.ecommerce.model.entity.Order;
 
+import com.projects.ecommerce.model.entity.Product.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
-@Table(name = "cart_items")
+@Table(name = "order_items")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItem {
+public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id", nullable = false)
-    private Cart cart;
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
@@ -28,5 +31,8 @@ public class CartItem {
 
     @Column(nullable = false)
     private int quantity;
+
+    @Column(nullable = false, updatable = false)
+    private BigDecimal priceAtMoment;
 
 }
