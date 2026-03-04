@@ -1,5 +1,6 @@
-package com.projects.ecommerce.model.entity;
+package com.projects.ecommerce.model.entity.Order;
 
+import com.projects.ecommerce.model.entity.User.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

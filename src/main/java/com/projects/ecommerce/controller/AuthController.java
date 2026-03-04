@@ -1,10 +1,10 @@
 package com.projects.ecommerce.controller;
 
-import com.projects.ecommerce.model.dto.AuthResponseDTO;
-import com.projects.ecommerce.model.dto.LoginRequestDTO;
-import com.projects.ecommerce.model.dto.RegisterRequestDTO;
-import com.projects.ecommerce.model.entity.Role;
-import com.projects.ecommerce.model.entity.User;
+import com.projects.ecommerce.model.dto.Auth.AuthResponseDTO;
+import com.projects.ecommerce.model.dto.Auth.LoginRequestDTO;
+import com.projects.ecommerce.model.dto.Auth.RegisterRequestDTO;
+import com.projects.ecommerce.model.entity.User.Role;
+import com.projects.ecommerce.model.entity.User.User;
 import com.projects.ecommerce.repository.UserRepository;
 import com.projects.ecommerce.security.JwtUtil;
 import jakarta.validation.Valid;

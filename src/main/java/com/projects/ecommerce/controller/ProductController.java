@@ -1,7 +1,7 @@
 package com.projects.ecommerce.controller;
 
-import com.projects.ecommerce.model.dto.ProductRequestDTO;
-import com.projects.ecommerce.model.dto.ProductResponseDTO;
+import com.projects.ecommerce.model.dto.Product.ProductRequestDTO;
+import com.projects.ecommerce.model.dto.Product.ProductResponseDTO;
 import com.projects.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
