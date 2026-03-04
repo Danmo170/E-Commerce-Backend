@@ -43,6 +43,12 @@ public class CartService {
 
         }
 
+        if (cartItemRequestDTO.getQuantity() > product.getStock()) {
+
+            throw new RuntimeException("Insufficient stock");
+
+        }
+
         CartItem cartItem = cartItemRepository.findByCartAndProduct(cart, product)
                 .orElseGet(() -> {
 
