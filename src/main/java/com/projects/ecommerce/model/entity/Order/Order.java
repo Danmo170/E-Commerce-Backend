@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -39,12 +41,16 @@ public class Order {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> items = new ArrayList<>();
+
     @PrePersist
     protected void onCreate() {
 
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         status = OrderStatus.PENDING;
+        total = BigDecimal.ZERO;
 
     }
 
