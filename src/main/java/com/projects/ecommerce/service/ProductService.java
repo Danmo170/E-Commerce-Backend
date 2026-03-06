@@ -3,6 +3,7 @@ package com.projects.ecommerce.service;
 import com.projects.ecommerce.exception.ResourceNotFoundException;
 import com.projects.ecommerce.model.dto.Product.ProductRequestDTO;
 import com.projects.ecommerce.model.dto.Product.ProductResponseDTO;
+import com.projects.ecommerce.model.dto.Product.ProductUpdateRequestDTO;
 import com.projects.ecommerce.model.entity.Product.Product;
 import com.projects.ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -49,16 +50,16 @@ public class ProductService {
 
     }
 
-    public ProductResponseDTO updateProduct(Long id, ProductRequestDTO productRequestDTO) {
+    public ProductResponseDTO updateProduct(Long id, ProductUpdateRequestDTO productUpdateRequestDTO) {
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product with id " + id + " not found"));
 
-        product.setName(productRequestDTO.getName());
-        product.setDescription(productRequestDTO.getDescription());
-        product.setPrice(productRequestDTO.getPrice());
-        product.setStock(productRequestDTO.getStock());
-        product.setCategory(productRequestDTO.getCategory());
+        if (productUpdateRequestDTO.getName() != null) product.setName(productUpdateRequestDTO.getName());
+        if (productUpdateRequestDTO.getDescription() != null) product.setDescription(productUpdateRequestDTO.getDescription());
+        if (productUpdateRequestDTO.getPrice() != null) product.setPrice(productUpdateRequestDTO.getPrice());
+        if (productUpdateRequestDTO.getStock() != null) product.setStock(productUpdateRequestDTO.getStock());
+        if (productUpdateRequestDTO.getCategory() != null) product.setCategory(productUpdateRequestDTO.getCategory());
 
         productRepository.save(product);
 
