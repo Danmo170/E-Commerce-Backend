@@ -8,9 +8,9 @@ public class ResourceNotFoundException extends RuntimeException {
 
     }
 
-    public ResourceNotFoundException(String obj) {
+    public ResourceNotFoundException(String message) {
 
-        super(obj + " not found");
+        super(message);
 
     }
 

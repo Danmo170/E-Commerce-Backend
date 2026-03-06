@@ -8,9 +8,9 @@ public class UnauthorizedException extends RuntimeException {
 
     }
 
-    public UnauthorizedException(String obj) {
+    public UnauthorizedException(String message) {
 
-        super(obj + " does not belong to user");
+        super(message);
 
     }
 
