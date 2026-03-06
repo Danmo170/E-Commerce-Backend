@@ -1,5 +1,7 @@
 package com.projects.ecommerce.service;
 
+import com.projects.ecommerce.exception.BadRequestException;
+import com.projects.ecommerce.exception.ResourceNotFoundException;
 import com.projects.ecommerce.model.dto.Cart.CartItemRequestDTO;
 import com.projects.ecommerce.model.dto.Cart.CartItemResponseDTO;
 import com.projects.ecommerce.model.dto.Cart.CartResponseDTO;
@@ -35,17 +37,17 @@ public class CartService {
         Cart cart = getOrCreateCart(user);
 
         Product product = productRepository.findById(cartItemRequestDTO.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product"));
 
         if (!product.isActive()) {
 
-            throw new RuntimeException("Product is not available");
+            throw new BadRequestException("Product is not available");
 
         }
 
         if (cartItemRequestDTO.getQuantity() > product.getStock()) {
 
-            throw new RuntimeException("Insufficient stock");
+            throw new BadRequestException("Insufficient stock");
 
         }
 
@@ -73,16 +75,16 @@ public class CartService {
         Cart cart = getOrCreateCart(user);
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         if (!product.isActive()) {
 
-            throw new RuntimeException("Product is not available");
+            throw new BadRequestException("Product is not available");
 
         }
 
         CartItem cartItem = cartItemRepository.findByCartAndProduct(cart, product)
-                .orElseThrow(() -> new RuntimeException("Item not found in cart"));
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found in cart"));
 
         cartItem.setQuantity(cartItemRequestDTO.getQuantity());
 
@@ -97,15 +99,15 @@ public class CartService {
         Cart cart = getOrCreateCart(user);
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         CartItem cartItem = cartItemRepository.findByCartAndProduct(cart, product)
-                .orElseThrow(() -> new RuntimeException("Item not found in cart"));
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found in cart"));
 
         cartItemRepository.delete(cartItem);
 
         Cart updatedCart = cartRepository.findById(cart.getId())
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
 
         return toCartResponseDTO(updatedCart);
 

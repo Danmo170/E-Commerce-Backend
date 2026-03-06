@@ -1,5 +1,6 @@
 package com.projects.ecommerce.service;
 
+import com.projects.ecommerce.exception.ResourceNotFoundException;
 import com.projects.ecommerce.model.dto.Product.ProductRequestDTO;
 import com.projects.ecommerce.model.dto.Product.ProductResponseDTO;
 import com.projects.ecommerce.model.entity.Product.Product;
@@ -27,7 +28,7 @@ public class ProductService {
     public ProductResponseDTO getProductById(Long id) {
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         return toProductResponseDTO(product);
     }
@@ -51,7 +52,7 @@ public class ProductService {
     public ProductResponseDTO updateProduct(Long id, ProductRequestDTO productRequestDTO) {
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         product.setName(productRequestDTO.getName());
         product.setDescription(productRequestDTO.getDescription());
@@ -68,7 +69,7 @@ public class ProductService {
     public void deactivateProduct(Long id) {
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         product.setActive(false);
 
