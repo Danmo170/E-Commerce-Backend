@@ -2,6 +2,7 @@ package com.projects.ecommerce.controller;
 
 import com.projects.ecommerce.model.dto.Product.ProductRequestDTO;
 import com.projects.ecommerce.model.dto.Product.ProductResponseDTO;
+import com.projects.ecommerce.model.dto.Product.ProductUpdateRequestDTO;
 import com.projects.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -53,12 +54,12 @@ public class ProductController {
 
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long id,
-                                                            @Valid @RequestBody ProductRequestDTO productRequestDTO) {
+                                                            @Valid @RequestBody ProductUpdateRequestDTO productUpdateRequestDTO) {
 
-        return ResponseEntity.ok(productService.updateProduct(id, productRequestDTO));
+        return ResponseEntity.ok(productService.updateProduct(id, productUpdateRequestDTO));
 
     }
 
