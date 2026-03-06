@@ -4,6 +4,7 @@ import com.projects.ecommerce.exception.BadRequestException;
 import com.projects.ecommerce.exception.ResourceNotFoundException;
 import com.projects.ecommerce.model.dto.Cart.CartItemRequestDTO;
 import com.projects.ecommerce.model.dto.Cart.CartItemResponseDTO;
+import com.projects.ecommerce.model.dto.Cart.CartItemUpdateRequestDTO;
 import com.projects.ecommerce.model.dto.Cart.CartResponseDTO;
 import com.projects.ecommerce.model.entity.Cart.Cart;
 import com.projects.ecommerce.model.entity.Cart.CartItem;
@@ -70,7 +71,7 @@ public class CartService {
 
     }
 
-    public CartResponseDTO updateItem(User user, Long productId, CartItemRequestDTO cartItemRequestDTO) {
+    public CartResponseDTO updateItem(User user, Long productId, CartItemUpdateRequestDTO cartItemUpdateRequestDTO) {
 
         Cart cart = getOrCreateCart(user);
 
@@ -86,7 +87,7 @@ public class CartService {
         CartItem cartItem = cartItemRepository.findByCartAndProduct(cart, product)
                 .orElseThrow(() -> new ResourceNotFoundException("Item not found in cart"));
 
-        cartItem.setQuantity(cartItemRequestDTO.getQuantity());
+        cartItem.setQuantity(cartItemUpdateRequestDTO.getQuantity());
 
         cartItemRepository.save(cartItem);
 
