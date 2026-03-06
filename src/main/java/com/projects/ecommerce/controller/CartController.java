@@ -1,6 +1,7 @@
 package com.projects.ecommerce.controller;
 
 import com.projects.ecommerce.model.dto.Cart.CartItemRequestDTO;
+import com.projects.ecommerce.model.dto.Cart.CartItemUpdateRequestDTO;
 import com.projects.ecommerce.model.dto.Cart.CartResponseDTO;
 import com.projects.ecommerce.model.entity.User.User;
 import com.projects.ecommerce.service.CartService;
@@ -36,9 +37,9 @@ public class CartController {
     @PutMapping("/items/{productId}")
     public ResponseEntity<CartResponseDTO> updateItem(@AuthenticationPrincipal User user,
                                                       @PathVariable Long productId,
-                                                      @Valid @RequestBody CartItemRequestDTO cartItemRequestDTO) {
+                                                      @Valid @RequestBody CartItemUpdateRequestDTO cartItemUpdateRequestDTO) {
 
-        return ResponseEntity.ok(cartService.updateItem(user, productId, cartItemRequestDTO));
+        return ResponseEntity.ok(cartService.updateItem(user, productId, cartItemUpdateRequestDTO));
 
     }
 
