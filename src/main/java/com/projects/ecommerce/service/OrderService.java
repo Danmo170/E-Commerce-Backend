@@ -1,5 +1,7 @@
 package com.projects.ecommerce.service;
 
+import com.projects.ecommerce.exception.BadRequestException;
+import com.projects.ecommerce.exception.ResourceNotFoundException;
 import com.projects.ecommerce.model.dto.Order.OrderItemResponseDTO;
 import com.projects.ecommerce.model.dto.Order.OrderResponseDTO;
 import com.projects.ecommerce.model.entity.Cart.Cart;
@@ -39,18 +41,18 @@ public class OrderService {
 
         return orderRepository.findByUserAndId(user, id)
                 .map(this::toOrderResponseDTO)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
     }
 
     public OrderResponseDTO createOrder(User user) {
 
         Cart cart = cartRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(("Cart not found")));
 
         if (cart.getItems().isEmpty()) {
 
-            throw new RuntimeException("Cart has no items");
+            throw new BadRequestException("Cart has no items");
 
         }
 
@@ -58,7 +60,7 @@ public class OrderService {
 
             if (cartItem.getQuantity() > cartItem.getProduct().getStock()) {
 
-                throw new RuntimeException("Insufficient stock");
+                throw new BadRequestException("Insufficient stock");
 
             }
 
@@ -100,11 +102,11 @@ public class OrderService {
     public OrderResponseDTO cancelOrder(User user, Long id) {
 
         Order order = orderRepository.findByUserAndId(user, id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
         if (order.getStatus() == OrderStatus.SHIPPED || order.getStatus() == OrderStatus.DELIVERED) {
 
-            throw new RuntimeException("Order cannot be cancelled");
+            throw new BadRequestException("Order cannot be cancelled");
 
         }
 
@@ -127,7 +129,7 @@ public class OrderService {
     public OrderResponseDTO updateOrderStatus(Long id, OrderStatus orderStatus) {
 
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
         order.setStatus(orderStatus);
 

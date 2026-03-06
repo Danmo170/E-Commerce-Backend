@@ -1,5 +1,7 @@
 package com.projects.ecommerce.controller;
 
+import com.projects.ecommerce.exception.BadRequestException;
+import com.projects.ecommerce.exception.ResourceNotFoundException;
 import com.projects.ecommerce.model.dto.Auth.AuthResponseDTO;
 import com.projects.ecommerce.model.dto.Auth.LoginRequestDTO;
 import com.projects.ecommerce.model.dto.Auth.RegisterRequestDTO;
@@ -35,7 +37,7 @@ public class AuthController {
 
         if (userRepository.findByEmail(registerRequestDTO.getEmail()).isPresent()) {
 
-            throw new RuntimeException("User with email: " + registerRequestDTO.getEmail() + " already exists");
+            throw new BadRequestException("User with email: " + registerRequestDTO.getEmail() + " already exists");
 
         }
 
@@ -62,7 +64,7 @@ public class AuthController {
         );
 
         User user = userRepository.findByEmail(loginRequestDTO.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         return new AuthResponseDTO(jwtUtil.generateToken(user));
 

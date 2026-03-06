@@ -29,22 +29,6 @@ public class GlobalExceptionHandler {
 
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<ErrorResponseDTO> handleUnauthorizedException(UnauthorizedException exception,
-                                                                        HttpServletRequest request) {
-
-        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
-                LocalDateTime.now(),
-                HttpStatus.FORBIDDEN.value(),
-                "Unauthorized user",
-                exception.getMessage(),
-                request.getRequestURI()
-        );
-
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponseDTO);
-
-    }
-
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponseDTO> handleBadRequestException(BadRequestException exception,
                                                                       HttpServletRequest request) {
