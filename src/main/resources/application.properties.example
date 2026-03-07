@@ -16,3 +16,6 @@ spring.jpa.show-sql=true
 jwt.secret=${JWT_SECRET}
 jwt.expiration=86400000
 
+# DataInitializer
+
+data-initializer.enabled=true
