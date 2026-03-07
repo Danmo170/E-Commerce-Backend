@@ -66,18 +66,20 @@ public class OrderService {
 
         }
 
-        Order order = new Order();
-        order.setUser(user);
+        Order order = Order.builder()
+                .user(user)
+                .build();
 
         orderRepository.save(order);
 
         for (CartItem cartItem : cart.getItems()) {
 
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setProduct(cartItem.getProduct());
-            orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setPriceAtMoment(cartItem.getProduct().getPrice());
+            OrderItem orderItem = OrderItem.builder()
+                    .order(order)
+                    .product(cartItem.getProduct())
+                    .quantity(cartItem.getQuantity())
+                    .priceAtMoment(cartItem.getProduct().getPrice())
+                    .build();
 
             cartItem.getProduct().setStock(cartItem.getProduct().getStock() - cartItem.getQuantity());
 

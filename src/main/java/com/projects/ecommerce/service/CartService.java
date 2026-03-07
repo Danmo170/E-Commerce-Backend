@@ -38,7 +38,7 @@ public class CartService {
         Cart cart = getOrCreateCart(user);
 
         Product product = productRepository.findById(cartItemRequestDTO.getProductId())
-                .orElseThrow(() -> new ResourceNotFoundException("Product"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         if (!product.isActive()) {
 
@@ -53,15 +53,14 @@ public class CartService {
         }
 
         CartItem cartItem = cartItemRepository.findByCartAndProduct(cart, product)
-                .orElseGet(() -> {
+                .orElseGet(() ->
 
-                    CartItem newCartItem = new CartItem();
-                    newCartItem.setCart(cart);
-                    newCartItem.setProduct(product);
+                    CartItem.builder()
+                            .cart(cart)
+                            .product(product)
+                            .build()
 
-                    return newCartItem;
-
-                });
+                );
 
         cartItem.setQuantity(cartItem.getQuantity() + cartItemRequestDTO.getQuantity());
 
@@ -119,8 +118,10 @@ public class CartService {
         return cartRepository.findByUser(user)
                 .orElseGet(() -> {
 
-                    Cart newCart = new Cart();
-                    newCart.setUser(user);
+                    Cart newCart = Cart.builder()
+                            .user(user)
+                            .build();
+
                     return cartRepository.save(newCart);
 
                 });
