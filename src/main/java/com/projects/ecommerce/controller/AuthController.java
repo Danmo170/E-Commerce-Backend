@@ -1,19 +1,12 @@
 package com.projects.ecommerce.controller;
 
-import com.projects.ecommerce.exception.BadRequestException;
-import com.projects.ecommerce.exception.ResourceNotFoundException;
 import com.projects.ecommerce.model.dto.Auth.AuthResponseDTO;
 import com.projects.ecommerce.model.dto.Auth.LoginRequestDTO;
 import com.projects.ecommerce.model.dto.Auth.RegisterRequestDTO;
-import com.projects.ecommerce.model.entity.User.Role;
-import com.projects.ecommerce.model.entity.User.User;
-import com.projects.ecommerce.repository.UserRepository;
-import com.projects.ecommerce.security.JwtUtil;
+import com.projects.ecommerce.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,49 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final UserRepository userRepository;
-
-    private final PasswordEncoder passwordEncoder;
-
-    private final AuthenticationManager authenticationManager;
-
-    private final JwtUtil jwtUtil;
+    private final AuthService authService;
 
     @PostMapping("/register")
-    public AuthResponseDTO register(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) {
+    public ResponseEntity<AuthResponseDTO> register(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) {
 
-        if (userRepository.findByEmail(registerRequestDTO.getEmail()).isPresent()) {
-
-            throw new BadRequestException("User with email: " + registerRequestDTO.getEmail() + " already exists");
-
-        }
-
-        User user = new User();
-        user.setName(registerRequestDTO.getName());
-        user.setEmail(registerRequestDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(registerRequestDTO.getPassword()));
-        user.setRole(Role.USER);
-
-        userRepository.save(user);
-
-        return new AuthResponseDTO(jwtUtil.generateToken(user));
+        return ResponseEntity.ok(authService.register(registerRequestDTO));
 
     }
 
     @PostMapping("/login")
-    public AuthResponseDTO login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequestDTO.getEmail(),
-                        loginRequestDTO.getPassword()
-                )
-        );
-
-        User user = userRepository.findByEmail(loginRequestDTO.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-        return new AuthResponseDTO(jwtUtil.generateToken(user));
+        return ResponseEntity.ok(authService.login(loginRequestDTO));
 
     }
 
