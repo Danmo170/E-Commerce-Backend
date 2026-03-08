@@ -13,6 +13,8 @@ import com.projects.ecommerce.model.entity.User.User;
 import com.projects.ecommerce.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -29,11 +31,10 @@ public class OrderService {
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
 
-    public List<OrderResponseDTO> getAllOrders(User user) {
+    public Page<OrderResponseDTO> getAllOrders(User user, Pageable pageable) {
 
-        return orderRepository.findByUser(user).stream()
-                .map(this::toOrderResponseDTO)
-                .toList();
+        return orderRepository.findByUser(user, pageable)
+                .map(this::toOrderResponseDTO);
 
     }
 
