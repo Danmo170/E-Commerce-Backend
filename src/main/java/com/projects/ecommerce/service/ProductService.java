@@ -7,9 +7,9 @@ import com.projects.ecommerce.model.dto.Product.ProductUpdateRequestDTO;
 import com.projects.ecommerce.model.entity.Product.Product;
 import com.projects.ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,12 +17,10 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public List<ProductResponseDTO> getAllProducts() {
+    public Page<ProductResponseDTO> getAllProducts(Pageable pageable) {
 
-        return productRepository.findAll()
-                .stream()
-                .map(this::toProductResponseDTO)
-                .toList();
+        return productRepository.findAll(pageable)
+                .map(this::toProductResponseDTO);
 
     }
 

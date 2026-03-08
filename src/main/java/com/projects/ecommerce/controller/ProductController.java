@@ -6,12 +6,15 @@ import com.projects.ecommerce.model.dto.Product.ProductUpdateRequestDTO;
 import com.projects.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -21,15 +24,12 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
+    public ResponseEntity<Page<ProductResponseDTO>> getAllProducts(
+            @PageableDefault(size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
 
-        List<ProductResponseDTO> products = productService.getAllProducts();
+        Page<ProductResponseDTO> products = productService.getAllProducts(pageable);
 
-        if (products.isEmpty()) {
-
-            return ResponseEntity.noContent().build();
-
-        }
+        if (products.isEmpty()) return ResponseEntity.noContent().build();
 
         return ResponseEntity.ok(products);
 

@@ -5,6 +5,10 @@ import com.projects.ecommerce.model.entity.Order.OrderStatus;
 import com.projects.ecommerce.model.entity.User.User;
 import com.projects.ecommerce.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,9 +25,10 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<List<OrderResponseDTO>> getAllOrders(@AuthenticationPrincipal User user) {
+    public ResponseEntity<Page<OrderResponseDTO>> getAllOrders(@AuthenticationPrincipal User user,
+                                                               @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        List<OrderResponseDTO> orders = orderService.getAllOrders(user);
+        Page<OrderResponseDTO> orders = orderService.getAllOrders(user, pageable);
 
         if (orders.isEmpty()) {
 
