@@ -16,7 +16,7 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
 
         RegisterRequestDTO registerRequestDTO = new RegisterRequestDTO("User", "user@example.com", "UserExample123");
 
-        mockMvc.perform(post("/api/auth/register")
+        mockMvc.perform(post("/api/v1/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(registerRequestDTO)))
                 .andExpect(status().isOk())
@@ -29,13 +29,13 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
 
         RegisterRequestDTO registerRequestDTO = new RegisterRequestDTO("User", "user@example.com", "UserExample123");
 
-        mockMvc.perform(post("/api/auth/register")
+        mockMvc.perform(post("/api/v1/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(registerRequestDTO)));
 
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO("user@example.com", "UserExample123");
 
-        mockMvc.perform(post("/api/auth/login")
+        mockMvc.perform(post("/api/v1/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequestDTO)))
                 .andExpect(status().isOk())

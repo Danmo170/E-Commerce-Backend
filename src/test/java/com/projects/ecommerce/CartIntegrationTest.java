@@ -15,7 +15,7 @@ public class CartIntegrationTest extends BaseIntegrationTest {
 
         Product product = createTestProduct();
 
-        mockMvc.perform(post("/api/cart/items")
+        mockMvc.perform(post("/api/v1/cart/items")
                         .header("Authorization", "Bearer " + getUserToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createValidCartItemRequestDTO(product))))
@@ -28,7 +28,7 @@ public class CartIntegrationTest extends BaseIntegrationTest {
 
         Product product = createTestProduct();
 
-        mockMvc.perform(post("/api/cart/items")
+        mockMvc.perform(post("/api/v1/cart/items")
                         .header("Authorization", "Bearer " + getUserToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createOverstockedCartItemRequestDTO(product))))
@@ -43,13 +43,13 @@ public class CartIntegrationTest extends BaseIntegrationTest {
 
         String userToken = getUserToken();
 
-        mockMvc.perform(post("/api/cart/items")
+        mockMvc.perform(post("/api/v1/cart/items")
                         .header("Authorization", "Bearer " + userToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createValidCartItemRequestDTO(product))))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/cart/items/" + product.getId())
+        mockMvc.perform(delete("/api/v1/cart/items/" + product.getId())
                 .header("Authorization", "Bearer " + userToken))
                 .andExpect(status().isOk());
 

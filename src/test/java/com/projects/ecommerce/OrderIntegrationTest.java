@@ -17,7 +17,7 @@ public class OrderIntegrationTest extends BaseIntegrationTest {
 
         addItemToCart(userToken);
 
-        mockMvc.perform(post("/api/orders")
+        mockMvc.perform(post("/api/v1/orders")
                         .header("Authorization", "Bearer " + userToken)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -29,7 +29,7 @@ public class OrderIntegrationTest extends BaseIntegrationTest {
     @Test
     void shouldNotCreateOrderWithoutCart() throws Exception {
 
-        mockMvc.perform(post("/api/orders")
+        mockMvc.perform(post("/api/v1/orders")
                         .header("Authorization", "Bearer " + getUserToken())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
@@ -45,7 +45,7 @@ public class OrderIntegrationTest extends BaseIntegrationTest {
 
         long orderId = createOrderAndGetId(userToken);
 
-        mockMvc.perform(patch("/api/orders/" + orderId + "/cancel")
+        mockMvc.perform(patch("/api/v1/orders/" + orderId + "/cancel")
                         .header("Authorization", "Bearer " + userToken)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -65,11 +65,11 @@ public class OrderIntegrationTest extends BaseIntegrationTest {
 
         long orderId = createOrderAndGetId(userToken);
 
-        mockMvc.perform(patch("/api/orders/" + orderId + "/status?status=SHIPPED")
+        mockMvc.perform(patch("/api/v1/orders/" + orderId + "/status?status=SHIPPED")
                         .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(patch("/api/orders/" + orderId + "/cancel")
+        mockMvc.perform(patch("/api/v1/orders/" + orderId + "/cancel")
                         .header("Authorization", "Bearer " + userToken)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
