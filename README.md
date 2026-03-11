@@ -1,41 +1,128 @@
 # 🛒 E-Commerce Backend
 
-## 🇺🇸 English
+A RESTful e-commerce backend API built with Java and Spring Boot, featuring JWT authentication, product management, shopping cart, and order processing.
 
-Backend e-commerce project developed with Java and Spring Boot.
+## 🛠️ Tech Stack
 
-**🚧 Currently in early configuration and planning stage.**
+- **Java 25**
+- **Spring Boot 4**
+- **Spring Security + JWT** (JJWT 0.12.6)
+- **Spring Data JPA + Hibernate**
+- **MySQL** (production) / **H2** (testing)
+- **Lombok**
+- **SpringDoc OpenAPI 3** (Swagger UI)
+- **GitHub Actions CI**
 
-### 🎯 Objective
+## ✨ Features
 
-Build a REST API that includes:
+- JWT-based authentication with role management (USER / ADMIN)
+- Full product CRUD with partial updates and pagination
+- Shopping cart with stock validation
+- Order management with status tracking and stock control
+- Global exception handling with structured error responses
+- Integration tests with MockMvc and H2
+- API versioning (`/api/v1`)
+- Environment variable configuration
+- Automated CI pipeline with GitHub Actions
+- Data seeding on startup for easy testing
 
-- Product management
-- Authentication and security
-- Order management
-- Relational database persistence
+## 📋 Requirements
 
-### 🛠️ Planned Stack
+- Java 25
+- Maven
+- MySQL 8+
 
-Java · Spring Boot · Spring Data JPA · MySQL · Swagger · Spring Security
+## ⚙️ Setup
 
----
+**1. Clone the repository**
+```bash
+git clone https://github.com/Danmo170/ecommerce.git
+cd ecommerce
+```
 
-## 🇪🇸 Español
+**2. Create the database**
+```sql
+CREATE DATABASE ecommerce_db;
+```
 
-Proyecto backend de e-commerce desarrollado con Java y Spring Boot.
+**3. Configure environment variables**
 
-**🚧 Actualmente en etapa inicial de configuración y planificación.**
+Copy the example file and fill in your values:
+```bash
+cp application.properties.example src/main/resources/application.properties
+```
 
-### 🎯 Objetivo
+Create a `.env` file in the root of the project:
+```env
+DB_PASSWORD=your_database_password
+JWT_SECRET=your_jwt_secret_base64_encoded
+```
 
-Construir una API REST que incluya:
+> To generate a secure Base64 JWT secret you can run:
+> ```bash
+> openssl rand -base64 32
+> ```
 
-- Gestión de productos
-- Autenticación y seguridad
-- Órdenes de compra
-- Persistencia en base de datos relacional
+**4. Run the application**
+```bash
+mvn spring-boot:run
+```
 
-### 🛠️ Stack planeado
+The API will be available at `http://localhost:8080`
 
-Java · Spring Boot · Spring Data JPA · MySQL · Swagger · Spring Security
+Swagger UI: `http://localhost:8080/swagger-ui.html`
+
+## 🔑 Test Credentials
+
+The application seeds the following accounts on startup:
+
+| Role  | Email               | Password         |
+|-------|---------------------|------------------|
+| USER  | user@example.com    | UserExample123   |
+| ADMIN | admin@example.com   | AdminExample123  |
+
+## 📡 API Endpoints
+
+### Auth
+| Method | Endpoint                  | Access | Description         |
+|--------|---------------------------|--------|---------------------|
+| POST   | `/api/v1/auth/register`   | Public | Register a new user |
+| POST   | `/api/v1/auth/login`      | Public | Login and get token |
+
+### Products
+| Method | Endpoint                          | Access | Description              |
+|--------|-----------------------------------|--------|--------------------------|
+| GET    | `/api/v1/products`                | Public | Get all products (paginated) |
+| GET    | `/api/v1/products/{id}`           | Public | Get product by ID        |
+| POST   | `/api/v1/products`                | ADMIN  | Create a product         |
+| PUT    | `/api/v1/products/{id}`           | ADMIN  | Update a product         |
+| PATCH  | `/api/v1/products/{id}/deactivate`| ADMIN  | Deactivate a product     |
+
+### Cart
+| Method | Endpoint                        | Access | Description           |
+|--------|---------------------------------|--------|-----------------------|
+| GET    | `/api/v1/cart`                  | USER   | Get current cart      |
+| POST   | `/api/v1/cart/items`            | USER   | Add item to cart      |
+| PUT    | `/api/v1/cart/items/{productId}`| USER   | Update item quantity  |
+| DELETE | `/api/v1/cart/items/{productId}`| USER   | Remove item from cart |
+
+### Orders
+| Method | Endpoint                            | Access | Description            |
+|--------|-------------------------------------|--------|------------------------|
+| GET    | `/api/v1/orders`                    | USER   | Get all user orders    |
+| GET    | `/api/v1/orders/{id}`               | USER   | Get order by ID        |
+| POST   | `/api/v1/orders`                    | USER   | Create order from cart |
+| PATCH  | `/api/v1/orders/{id}/cancel`        | USER   | Cancel an order        |
+| PATCH  | `/api/v1/orders/{id}/status`        | ADMIN  | Update order status    |
+
+## 🧪 Running Tests
+
+```bash
+mvn test
+```
+
+## 👤 Author
+
+**Daniel Moshe Carrillo Alvarez**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/daniel-carrillo-48ab863a1/)
