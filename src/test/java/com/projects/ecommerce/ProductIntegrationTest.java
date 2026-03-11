@@ -25,7 +25,7 @@ public class ProductIntegrationTest extends BaseIntegrationTest {
                 .category("Tests")
                 .build());
 
-        mockMvc.perform(get("/api/products"))
+        mockMvc.perform(get("/api/v1/products"))
                 .andExpect(status().isOk());
 
     }
@@ -33,7 +33,7 @@ public class ProductIntegrationTest extends BaseIntegrationTest {
     @Test
     void shouldCreateProductSuccessfully() throws Exception {
 
-        mockMvc.perform(post("/api/products")
+        mockMvc.perform(post("/api/v1/products")
                         .header("Authorization", "Bearer " + getAdminToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createTestProductRequestDTO())))
@@ -46,7 +46,7 @@ public class ProductIntegrationTest extends BaseIntegrationTest {
     @Test
     void shouldNotCreateProductWithUserToken() throws Exception {
 
-        mockMvc.perform(post("/api/products")
+        mockMvc.perform(post("/api/v1/products")
                         .header("Authorization", "Bearer " + getUserToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createTestProductRequestDTO())))
