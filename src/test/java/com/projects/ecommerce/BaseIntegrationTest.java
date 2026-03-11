@@ -128,7 +128,7 @@ public abstract class BaseIntegrationTest {
 
         Product product = createTestProduct();
 
-        mockMvc.perform(post("/api/cart/items")
+        mockMvc.perform(post("/api/v1/cart/items")
                         .header("Authorization", "Bearer " + userToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createValidCartItemRequestDTO(product))))
@@ -138,7 +138,7 @@ public abstract class BaseIntegrationTest {
 
     protected long createOrderAndGetId(String userToken) throws Exception {
 
-        String response = mockMvc.perform(post("/api/orders")
+        String response = mockMvc.perform(post("/api/v1/orders")
                         .header("Authorization", "Bearer " + userToken)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn()
